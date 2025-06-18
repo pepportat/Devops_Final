@@ -1,5 +1,7 @@
 import os
 from datetime import datetime
+from os import getenv
+
 import  psycopg2
 from flask.cli import load_dotenv
 
@@ -12,8 +14,8 @@ class DB_Connection:
 
     def get_connection(self):
         return psycopg2.connect(
-            host = "localhost",
-            database ="ToDoApp_DB",
+            host = os.getenv('DB_HOST'),
+            database = os.getenv('DB_NAME'),
             user = os.getenv('DB_USERNAME'),
             password = os.getenv('DB_PASSWORD')
         )
