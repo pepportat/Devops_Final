@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from db_connection import  DB_Connection
 from datetime import  datetime
 from flask_cors import CORS
@@ -67,5 +67,11 @@ def create_task():
         return jsonify({"message": "Task created"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@app.route('/')
+def serve_index():
+    return send_from_directory('static', 'index.html')
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
