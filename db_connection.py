@@ -20,8 +20,6 @@ class DB_Connection:
             password = os.getenv('DB_PASSWORD')
         )
 
-    cursor =get_connection().cursor()
-
     def insert(self, title, description, is_done, created_on=datetime.now()):
         self.cursor.execute(
             "INSERT INTO task (title, description, is_done, created_on) values (%s, %s, %s, %s)",
@@ -90,3 +88,38 @@ class DB_Connection:
     def close_connection(self):
         self.cursor.close()
         self.connection.close()
+
+    def update_task(self, task_id, title=None, description=None, is_done=None):
+        set_clauses = []
+        params = []
+
+        if title is not None:
+            set_clauses.append("title = %s")
+            params.append(title)
+        if description is not None:
+            set_clauses.append("description = %s")
+            params.append(description)
+        if is_done is not None:
+            set_clauses.append("is_done = %s")
+            params.append(is_done)
+
+        if not set_clauses:
+            print("No fields provided for update.")
+            return False
+
+        query = f"UPDATE task SET {', '.join(set_clauses)} WHERE task_id = %s"
+        params.append(task_id)
+
+        try:
+            self.cursor.execute(query, tuple(params))
+            self.connection.commit()
+            if self.cursor.rowcount > 0:
+                print(f"Task with ID {task_id} updated successfully.")
+                return True
+            else:
+                print(f"No task found with ID {task_id} to update.")
+                return False
+        except psycopg2.Error as e:
+            print(f"Error updating task with ID {task_id}: {e}")
+            self.connection.rollback()
+            raise
