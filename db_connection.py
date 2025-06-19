@@ -22,7 +22,7 @@ class DB_Connection:
 
     def insert(self, title, description, is_done, created_on=datetime.now()):
         self.cursor.execute(
-            "INSERT INTO task (title, description, is_done, created_on) values (%s, %s, %s, %s)",
+            "INSERT INTO task (title, description, is_done, created_on) VALUES (%s, %s, %s, %s)",
             (title, description, is_done, created_on)
         )
         self.connection.commit()
@@ -32,7 +32,7 @@ class DB_Connection:
             'SELECT * FROM task WHERE task_id = %s',
             (task_id,)
         )
-        self.connection.commit()
+        return  self.cursor.fetchone()
 
     def get_all(self):
         self.cursor.execute('SELECT * FROM task')
@@ -44,12 +44,12 @@ class DB_Connection:
             'SELECT * FROM task WHERE title = %s',
             (title,)
         )
-        self.connection.commit()
+        return  self.cursor.fetchone()
 
 
     def delete_by_id(self, task_id):
         self.cursor.execute(
-            'DELETE FROM task WHERE task_id = %S',
+            'DELETE FROM task WHERE task_id = %s',
             (task_id,)
         )
         self.connection.commit()

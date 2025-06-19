@@ -1,8 +1,10 @@
 from flask import Flask, jsonify, request
 from db_connection import  DB_Connection
 from datetime import  datetime
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 db = DB_Connection()
 
 @app.route('/tasks', methods=['GET'])
