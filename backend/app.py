@@ -68,9 +68,9 @@ def create_task():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/')
-def serve_index():
-    return send_from_directory('static', 'index.html')
+# @app.route('/')
+# def serve_index():
+#     return send_from_directory('frontend', 'index.html')
 
 
 if __name__ == '__main__':
