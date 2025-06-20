@@ -74,4 +74,6 @@ def create_task():
 
 
 if __name__ == '__main__':
+    db.create_table()
+    db.seed_table()
     app.run(host='0.0.0.0', port=5000)
