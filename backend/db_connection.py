@@ -63,9 +63,9 @@ class DB_Connection:
         self.connection.commit()
 
     def create_table(self):
-        self.cursor.execute('DROP TABLE IF EXISTS task;')
+        # self.cursor.execute('DROP TABLE IF EXISTS task;')
         self.cursor.execute('''
-                        CREATE TABLE task (
+                        CREATE TABLE IF NOT EXISTS task (
                         task_id serial PRIMARY KEY,
                         title VARCHAR(50) NOT NULL UNIQUE,
                         description VARCHAR(250) NOT NULL,
@@ -75,15 +75,15 @@ class DB_Connection:
         self.connection.commit()
 
     def seed_table(self):
-        self.cursor.execute('INSERT INTO task (title, description, is_done, created_on)'
-                    'VALUES (%s, %s, %s, %s);',
-                    (
-                        'Devops Final',
-                        'Create a project, which summarizes all the topics we\'ve learned this semester into one big assignment',
-                        False,
-                        datetime(2025, 6, 18)
-                    )
-                    )
+        # self.cursor.execute('INSERT INTO task (title, description, is_done, created_on)'
+        #             'VALUES (%s, %s, %s, %s);',
+        #             (
+        #                 'Devops Final',
+        #                 'Create a project, which summarizes all the topics we\'ve learned this semester into one big assignment',
+        #                 False,
+        #                 datetime(2025, 6, 18)
+        #             )
+        #             )
         self.connection.commit()
 
     def close_connection(self):
