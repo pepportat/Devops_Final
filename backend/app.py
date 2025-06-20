@@ -68,10 +68,12 @@ def create_task():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/')
-def serve_index():
-    return send_from_directory('static', 'index.html')
+# @app.route('/')
+# def serve_index():
+#     return send_from_directory('frontend', 'index.html')
 
 
 if __name__ == '__main__':
+    db.create_table()
+    db.seed_table()
     app.run(host='0.0.0.0', port=5000)

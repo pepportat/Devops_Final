@@ -4,6 +4,7 @@ from os import getenv
 
 import  psycopg2
 from flask.cli import load_dotenv
+load_dotenv()
 
 class DB_Connection:
 
