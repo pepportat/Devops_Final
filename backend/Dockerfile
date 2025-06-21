@@ -1,8 +1,8 @@
-from python:3.10-slim
+FROM python:3.11-alpine
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y \
+RUN apk update && apk add \
     gcc \
     postgresql-client \
     && rm -rf /var/lib/apt/lists

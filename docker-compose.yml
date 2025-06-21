@@ -1,7 +1,7 @@
 #version: '3.11'
 services:
   db:
-    image: postgres:16
+    image: postgres:17-alpine
     container_name: devops_db
     restart: always
     shm_size: 128mb
@@ -67,7 +67,6 @@ services:
       - tasknet
     restart: unless-stopped
 
-  # Grafana for visualization
   grafana:
     image: grafana/grafana:latest
     container_name: devops_grafana
@@ -86,7 +85,6 @@ services:
     depends_on:
       - prometheus
 
-  # Node Exporter for system metrics
   node-exporter:
     image: prom/node-exporter:latest
     container_name: devops_node_exporter
@@ -105,7 +103,6 @@ services:
       - tasknet
     restart: unless-stopped
 
-  # cAdvisor for container metrics
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
     container_name: devops_cadvisor
