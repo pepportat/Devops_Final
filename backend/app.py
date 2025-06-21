@@ -9,15 +9,12 @@ import sys
 app = Flask(__name__)
 CORS(app)
 
-# Add Prometheus metrics
 metrics = PrometheusMetrics(app)
 
-# Add custom metrics
 metrics.info('app_info', 'Application info', version='1.0.0')
 
 
 def wait_for_db():
-    """Wait for database to be ready with retry logic"""
     max_retries = 30
     retry_interval = 2
 
@@ -38,7 +35,6 @@ def wait_for_db():
     return False
 
 
-# Wait for database before initializing
 if not wait_for_db():
     sys.exit(1)
 
@@ -47,9 +43,7 @@ db = DB_Connection()
 
 @app.route('/health')
 def health_check():
-    """Health check endpoint for monitoring"""
     try:
-        # Test database connection
         db.get_all()
         return jsonify({
             "status": "healthy",
