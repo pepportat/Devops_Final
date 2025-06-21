@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request, send_from_directory
+from prometheus_client import Gauge
 from db_connection import DB_Connection
 from datetime import datetime
 from flask_cors import CORS
@@ -13,6 +14,12 @@ metrics = PrometheusMetrics(app)
 
 metrics.info('app_info', 'Application info', version='1.0.0')
 
+start_time = time.time()
+app_uptime = Gauge('app_uptime_seconds', 'Uptime of the Flask application in seconds')
+
+@app.before_request
+def before_request():
+    app_uptime.set(time.time() - start_time)
 
 def wait_for_db():
     max_retries = 30
